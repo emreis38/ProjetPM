@@ -1,12 +1,16 @@
 package com.pm.projetpkmn;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,21 +30,48 @@ import java.util.ArrayList;
 
 public class StatsActivity extends AppCompatActivity {
     String API_KEY = "dc19ace9-0a20-467a-b498-42e29a529bf3";
+    SharedPreferences sharedpreferences;
+    String mypreference = "recent";
     TextView tv;
+    EditText et;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
         String pseudo = i.getStringExtra("pseudo");
         setContentView(R.layout.activity_game);
+        et = findViewById(R.id.input);
         tv = findViewById(R.id.tv1);
-    }
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+        String nick = sharedpreferences.getString("first", "no");
+        if(!nick.equals("no")){
+            LinearLayout ll = findViewById(R.id.ll_nicknames);
+            Button b = new Button(this);
+            b.setId(0);
+            b.setText(nick);
+            b.setOnClickListener(setClickecText);
+            ll.addView(b);
+        }
 
+    }
+    private View.OnClickListener setClickecText = new View.OnClickListener() {
+        public void onClick(View v) {
+            Button b = findViewById(0);
+            et.setText(b.getText().toString());
+            View myView = findViewById(R.id.checkButton);
+            myView.performClick();
+        }
+    };
     public void start(View view) {
-        EditText et = findViewById(R.id.input);
         String pseudo = et.getText().toString();
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("first", pseudo);
+        editor.commit() ;
         RequestTask rt = new RequestTask();
         rt.execute(pseudo);
+
     }
 
 

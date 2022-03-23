@@ -6,6 +6,9 @@ public class blog_post {
     private String date;
     private String imgUrl;
     private String slug;
+    private String smallContent;
+    private String content;
+
 
     public blog_post(){
         this.imgUrl = "https://cdn.hytale.com/variants/blog_cover_";
@@ -18,8 +21,13 @@ public class blog_post {
         this.smallContent = smallContent;
     }
 
-    private String smallContent;
+    public String getContent() {
+        return content;
+    }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
     public String getAuthor() {
         return author;
     }

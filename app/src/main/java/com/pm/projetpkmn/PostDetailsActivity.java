@@ -2,10 +2,17 @@ package com.pm.projetpkmn;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,28 +29,28 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class PostDetailsActivity extends AppCompatActivity {
+    blog_post post;
+    TextView tv;
+    ImageView iv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
-
-        String url = getIntent().getStringExtra("slug");
-        //url = "https://hytale.com/api/blog/post/slug/" + url; pour l'api
-        Log.d("url", url);
-      //  As
+        tv = findViewById(R.id.tv_content);
+        iv = findViewById(R.id.img);
+        String slug = getIntent().getStringExtra("slug");
+        RequestTask rt = new RequestTask();
+        rt.execute(slug);
 
     }
-    private class RequestTask extends AsyncTask<Integer, Void, ArrayList<String>> {
-        ArrayList<blog_post> blogList;
-
-        @Override
-        protected ArrayList<String> doInBackground(Integer... nb) {
-            ArrayList<String> array = new ArrayList<String>();
-            //requete();
-            return array;
+    private class RequestTask extends AsyncTask<String, Void, String> {
+        // Le corps de la tâche asynchrone (exécuté en tâche de fond)
+        protected String doInBackground(String... slug) {
+            String response = requete(slug[0]);
+            return response;
         }
         private String requete(String slug) {
-            ArrayList<blog_post> blogList;
             String response = "";
             try {
                 HttpURLConnection connection = null;
@@ -59,7 +66,9 @@ public class PostDetailsActivity extends AppCompatActivity {
                     response+=ligne;
                     ligne = bufferedReader.readLine();
                 }
-                JSONArray toDecode = new JSONArray(response);
+                JSONObject toDecode = new JSONObject(response);
+                Log.d("zbub", response);
+
                 decodeJSON(toDecode);
             } catch (UnsupportedEncodingException e) {
                 response = "problème d'encodage";
@@ -72,24 +81,19 @@ public class PostDetailsActivity extends AppCompatActivity {
             }
             return response;
         }
-        private blog_post decodeJSON(JSONArray jsa) throws Exception {
+        private void decodeJSON(JSONObject obj) throws Exception {
             blog_post blog = new blog_post();
-            int i = 0;
-            while(i < jsa.length()){
-                JSONObject obj = jsa.getJSONObject(i);
-                blog.setAuthor(obj.getString("author"));
-                blog.setTitle(obj.getString("title"));
-                JSONObject img = obj.getJSONObject("coverImage");
-                blog.setImgUrl(img.getString("s3Key"));
-                blog.setSmallContent(obj.getString("bodyExcerpt"));
-                blog.setSmallContent(blog.getSmallContent().substring(0, 200).concat("..."));
-                blog.setSlug(obj.getString("slug"));
-                i++;
-            }
-            return blog;
+            blog.setAuthor(obj.getString("author"));
+            blog.setTitle(obj.getString("title"));
+            blog.setContent(obj.getString("body"));
+            JSONObject img = obj.getJSONObject("coverImage");
+            blog.setImgUrl(img.getString("s3Key"));
+            post = blog;
+            Log.d("contenttt", blog.getTitle());
         }
-        protected void onPostExecute(ArrayList<String> array) {
-
+        protected void onPostExecute(String result) {
+            Picasso.get().load(post.getImgUrl()).fit().into(iv);
+            tv.setText(Html.fromHtml(post.getContent(), 0));
         }
     }
 }

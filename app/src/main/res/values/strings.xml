@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Minecraft APP</string>
+    <string name="app_name">Hypi-App</string>
     <string name="Chercher">Chercher</string>
     <string name="title_activity_news">NewsActivity</string>
     <!-- Strings used for fragments for navigation -->

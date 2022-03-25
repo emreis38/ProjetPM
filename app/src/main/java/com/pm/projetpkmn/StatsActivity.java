@@ -34,7 +34,7 @@ public class StatsActivity extends AppCompatActivity {
     String mypreference = "recent";
     TextView tv;
     EditText et;
-
+    Boolean bypass = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,35 +43,53 @@ public class StatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         et = findViewById(R.id.input);
         tv = findViewById(R.id.tv1);
-        sharedpreferences = getSharedPreferences(mypreference,
-                Context.MODE_PRIVATE);
-        String nick = sharedpreferences.getString("first", "no");
-        if(!nick.equals("no")){
-            LinearLayout ll = findViewById(R.id.ll_nicknames);
-            Button b = new Button(this);
-            b.setId(0);
-            b.setText(nick);
-            b.setOnClickListener(setClickecText);
-            ll.addView(b);
-        }
+        et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+               bypass = false;
+            }
+        });
+        hideButtons();
+        updateRecent();
+    }
+
+    private void hideButtons() {
+        Button b = findViewById(R.id.b1);
+        b.setVisibility(View.GONE);
+        b.setOnClickListener(setClickecText);
+        b = findViewById(R.id.b2);
+        b.setVisibility(View.GONE);
+        b.setOnClickListener(setClickecText);;
+        b = findViewById(R.id.b3);
+        b.setVisibility(View.GONE);
+        b.setOnClickListener(setClickecText);
+        b = findViewById(R.id.b4);
+        b.setVisibility(View.GONE);
+        b.setOnClickListener(setClickecText);
+        b = findViewById(R.id.b5);
+        b.setVisibility(View.GONE);
+        b.setOnClickListener(setClickecText);
 
     }
+
     private View.OnClickListener setClickecText = new View.OnClickListener() {
         public void onClick(View v) {
-            Button b = findViewById(0);
+            Button b = findViewById(v.getId());
             et.setText(b.getText().toString());
             View myView = findViewById(R.id.checkButton);
+            bypass = true;
             myView.performClick();
         }
     };
     public void start(View view) {
         String pseudo = et.getText().toString();
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString("first", pseudo);
-        editor.commit() ;
+        if(!bypass){
+            DecalerPref(pseudo);
+            bypass = false;
+        }
+
         RequestTask rt = new RequestTask();
         rt.execute(pseudo);
-
     }
 
 
@@ -147,6 +165,65 @@ public class StatsActivity extends AppCompatActivity {
         // Méthode appelée lorsque la tâche de fond sera terminée
         protected void onPostExecute(ArrayList<String> array) {
             tv.setText(array.get(0));
+            updateRecent();
+        }
+    }
+    private void DecalerPref(String pseudo ){
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        String nick1 = sharedpreferences.getString("first", "no");
+        String nick2 = sharedpreferences.getString("second", "no");
+        String nick3 = sharedpreferences.getString("third", "no");
+        String nick4 = sharedpreferences.getString("four", "no");
+        if(!nick1.equals("no")){
+            editor.putString("second", nick1);
+            if(!nick2.equals("no")){
+                editor.putString("third", nick2);
+                if(!nick3.equals("no")) {
+                    editor.putString("four", nick3);
+                    if(!nick4.equals("no")) {
+                        editor.putString("five", nick4);
+                    }
+                }
+            }
+        }
+        editor.putString("first", pseudo);
+        editor.commit() ;
+    }
+    private void updateRecent(){
+        sharedpreferences = getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+        String nick = sharedpreferences.getString("first", "no");
+        Button b = findViewById(R.id.b1);
+        if(!nick.equals("no")){
+            LinearLayout ll = findViewById(R.id.ll_nicknames);
+            b.setText(nick);
+            b.setVisibility(View.VISIBLE);
+            nick = sharedpreferences.getString("second", "no");
+            b = findViewById(R.id.b2);
+            if(!nick.equals("no")){
+                b.setText(nick);
+                b.setVisibility(View.VISIBLE);
+                nick = sharedpreferences.getString("third", "no");
+                b = findViewById(R.id.b3);
+                if(!nick.equals("no")){
+                    b.setText(nick);
+                    b.setVisibility(View.VISIBLE);
+                    nick = sharedpreferences.getString("four", "no");
+                    b = findViewById(R.id.b4);
+                    if(!nick.equals("no")){
+                        b.setText(nick);
+                        b.setVisibility(View.VISIBLE);
+                        nick = sharedpreferences.getString("five", "no");
+                        b = findViewById(R.id.b5);
+                        if(!nick.equals("no")){
+                            b.setText(nick);
+                            b.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+            }
+
         }
     }
 }

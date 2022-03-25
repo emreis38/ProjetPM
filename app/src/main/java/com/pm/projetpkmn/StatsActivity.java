@@ -1,5 +1,6 @@
 package com.pm.projetpkmn;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -9,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,6 +84,33 @@ public class StatsActivity extends AppCompatActivity {
             myView.performClick();
         }
     };
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.accueil:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.Stats:
+                intent = new Intent(this, StatsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.News:
+                intent = new Intent(this, NewsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
     public void start(View view) {
         String pseudo = et.getText().toString();
         if(!bypass){

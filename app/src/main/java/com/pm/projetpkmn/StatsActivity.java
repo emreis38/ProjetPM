@@ -1,11 +1,14 @@
 package com.pm.projetpkmn;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -35,6 +38,33 @@ public class StatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         tv = findViewById(R.id.tv1);
     }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.accueil:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.Stats:
+                intent = new Intent(this, StatsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.News:
+                intent = new Intent(this, NewsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     public void start(View view) {
         EditText et = findViewById(R.id.input);

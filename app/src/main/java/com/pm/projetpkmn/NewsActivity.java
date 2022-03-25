@@ -1,5 +1,6 @@
 package com.pm.projetpkmn;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -10,6 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +47,32 @@ public class NewsActivity extends AppCompatActivity {
         tv = findViewById(R.id.tv1);
         RequestTask rt = new RequestTask();
         rt.execute();
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu,menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.accueil:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.Stats:
+                intent = new Intent(this, StatsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.News:
+                intent = new Intent(this, NewsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private class RequestTask extends AsyncTask<Integer, Void, ArrayList<String>> {

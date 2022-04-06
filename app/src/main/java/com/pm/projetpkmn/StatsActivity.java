@@ -85,11 +85,11 @@ public class StatsActivity extends AppCompatActivity {
         }
     };
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu,menu);
+        //getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+    /*public boolean onOptionsItemSelected(@NonNull MenuItem item){
         Intent intent;
         switch (item.getItemId()){
             case R.id.accueil:
@@ -108,7 +108,8 @@ public class StatsActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
+
 
 
     public void start(View view) {

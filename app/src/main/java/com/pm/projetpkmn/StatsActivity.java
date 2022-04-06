@@ -2,22 +2,30 @@ package com.pm.projetpkmn;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.text.LineBreaker;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -38,6 +46,7 @@ public class StatsActivity extends AppCompatActivity {
     TextView tv;
     EditText et;
     Boolean bypass = false;
+    ArrayList<stats> statistiques;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,7 +135,7 @@ public class StatsActivity extends AppCompatActivity {
 
     private class RequestTask extends AsyncTask<String, Void, ArrayList<String>> {
         // Le corps de la tâche asynchrone (exécuté en tâche de fond)
-
+        ArrayList<stats> statistiques;
         @Override
         protected ArrayList<String> doInBackground(String... pseudo) {
             ArrayList<String> array = new ArrayList<String>();
@@ -136,6 +145,7 @@ public class StatsActivity extends AppCompatActivity {
         }
         private String requete(String pseudo) {
             String response = "";
+            ArrayList<String> stats;
             try {
                 HttpURLConnection connection = null;
                 URL url = new
@@ -164,6 +174,7 @@ public class StatsActivity extends AppCompatActivity {
                     bufferedReader = new BufferedReader(inputStreamReader2);
                     String str = bufferedReader.readLine();
                     response = "";
+
                     while (str!= null){
                         response+=str;
                         str = bufferedReader.readLine();
@@ -182,10 +193,22 @@ public class StatsActivity extends AppCompatActivity {
             }
             return response;
         }
-        private String decodeJSON(JSONObject jso) throws Exception {
-            String response = "";
+        private ArrayList<stats> decodeJSON(JSONArray jsa) throws Exception {
+            statistiques = new ArrayList<>();
+            stats stat;
+            int i=0;
+            while(i<jsa.length()){
+                stat = new stats();
+                JSONObject obj = jsa.getJSONObject(i);
+                stat.setDpName(obj.getString("displayname"));
+                stat.setExperience(obj.getString("Experience"));
+                stat.setBedwarsLvl("bedwars_level");
+                stat.setBedwarsWin("bedwars_wars");
+                statistiques.add(stat);
+                i++;
+            }
 
-            return response;
+            return statistiques;
         }
         private String getUUID(JSONObject jso) throws Exception {
             return jso.getString("id");
@@ -195,10 +218,46 @@ public class StatsActivity extends AppCompatActivity {
 
         // Méthode appelée lorsque la tâche de fond sera terminée
         protected void onPostExecute(ArrayList<String> array) {
-            tv.setText(array.get(0));
-            updateRecent();
+            display_stat(statistiques);
         }
     }
+    protected void display_stat(ArrayList<stats> st){
+        statistiques = st;
+        //generatedId = View.generateViewId();
+        int i = 0;
+        while(i < statistiques.size()) {
+            stats stat = statistiques.get(i);
+            LinearLayout ll = new LinearLayout(this);
+            ll.setId(i);
+            ll.setMinimumHeight(500);
+            ll.setOnClickListener(openDetails);
+            TextView dpName = new TextView(this);
+            dpName.setText(stat.getDpName());
+            dpName.setTextColor(Color.BLUE);
+            TextView Exp = new TextView(this);
+            Exp.setText(stat.getExperience());
+            Exp.setTextColor(Color.BLUE);
+            TextView bdLvl = new TextView(this);
+            bdLvl.setText(stat.getBedwarsLvl());
+            bdLvl.setTextColor(Color.BLUE);
+            TextView bdw = new TextView(this);
+            bdw.setText(stat.getBedwarsWin());
+            bdw.setTextColor(Color.BLUE);
+            ll.addView(dpName);
+            ll.addView(Exp);
+            ll.addView(bdLvl);
+            ll.addView(bdw);
+            i++;
+        }
+    }
+    private View.OnClickListener openDetails = new View.OnClickListener() {
+        public void onClick(View v) {
+            stats stat = statistiques.get(v.getId());
+            Intent intent = new Intent(v.getContext(), PostDetailsActivity.class);
+            intent.putExtra("slug", stat.getSlug());
+            startActivity(intent);
+        }
+    };
     private void DecalerPref(String pseudo ){
         SharedPreferences.Editor editor = sharedpreferences.edit();
         String nick1 = sharedpreferences.getString("first", "no");

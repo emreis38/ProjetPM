@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:background="@drawable/mainbackground"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +21,9 @@
             android:layout_gravity="center"
             android:text="Statistique d'un joueur"
             android:onClick="launch"
+            android:background="@drawable/rounded_corner"
             />
+
         <Button
             android:id="@+id/b_news"
             android:layout_width="wrap_content"
@@ -27,6 +31,8 @@
             android:layout_gravity="center"
             android:text="News"
             android:onClick="launch"
+            android:background="@drawable/rounded_corner"
+            android:layout_marginTop="5dp"
             />
 
 

@@ -50,11 +50,11 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu,menu);
+        //getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+    /*public boolean onOptionsItemSelected(@NonNull MenuItem item){
         Intent intent;
         switch (item.getItemId()){
             case R.id.accueil:
@@ -73,7 +73,8 @@ public class NewsActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
+
 
     private class RequestTask extends AsyncTask<Integer, Void, ArrayList<String>> {
         ArrayList<blog_post> blogList;

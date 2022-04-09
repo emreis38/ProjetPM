@@ -1,21 +1,57 @@
 package com.pm.projetpkmn;
 
 public class stats {
-    private String dpName;
-    private String experience;
-    private String bedwarsWin;
-    private String bedwarsLvl;
-    private String slug;
+    private String dpName = "";
+    private String experience ="";
+    private String bedwarsplg = "";
+    private String bedwarsWin ="";
+    private String bedwarsLvl ="";
+    private String language = "";
+    private String UuId = "";
+    private String skwins = "";
+    private String skwint = "";
 
-    public String getSlug() {
-        return slug;
+    public String getSkwint() {
+        return skwint;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setSkwint(String skwint) {
+        this.skwint = skwint;
+    }
+
+    public String getBedwarsplg() {
+        return bedwarsplg;
+    }
+
+    public void setBedwarsplg(String bedwarsplg) {
+        this.bedwarsplg = bedwarsplg;
+    }
+
+    public String getSkwins() {
+        return skwins;
+    }
+
+    public void setSkwins(String skwins) {
+        this.skwins = skwins;
     }
 
     public stats() {    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getUuId() {
+        return UuId;
+    }
+
+    public void setUuId(String uuId) {
+        UuId = uuId;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     public String getDpName() {
         return dpName;

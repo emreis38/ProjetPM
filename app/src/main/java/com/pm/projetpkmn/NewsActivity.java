@@ -50,11 +50,11 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
-        //getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
-    /*public boolean onOptionsItemSelected(@NonNull MenuItem item){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
         Intent intent;
         switch (item.getItemId()){
             case R.id.accueil:
@@ -73,7 +73,7 @@ public class NewsActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }*/
+    }
 
 
     private class RequestTask extends AsyncTask<Integer, Void, ArrayList<String>> {
@@ -157,11 +157,11 @@ public class NewsActivity extends AppCompatActivity {
             iv.setContentDescription("tu le c");
             TextView titre = new TextView(this);
             titre.setText(post.getTitle());
-            titre.setTextColor(Color.WHITE);
+            titre.setTextColor(Color.BLACK);
             titre.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL);
             titre.setPadding(0, 0, 0, 220);
             titre.setTextSize(18);
-            iv.setPadding(20, 20, 20, 200);
+            iv.setPadding(20, 20, 20, 290);
             TextView tv = new TextView(this);
             tv.setText(post.getSmallContent());
             tv.setGravity(Gravity.BOTTOM);

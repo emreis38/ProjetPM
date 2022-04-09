@@ -5,18 +5,45 @@
     android:layout_height="match_parent"
     tools:context=".StatsActivity"
     android:orientation="vertical"
-    android:id="@+id/layoutQuizOut">
+    android:id="@+id/layoutQuizOut"
+    >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/porpose"
+    android:text="Recherche de stats pour : "
+    android:textStyle="bold"
+    android:textSize="17dp"/>
 
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="0">
+        <TableRow>
     <EditText
         android:id="@+id/input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
+        android:hint="Entrer un pseudo"
+        android:layout_marginTop="10dp"
         />
+    <Button
+        android:id="@+id/checkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Chercher"
+        android:onClick="start"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_corner"
+        />
+        </TableRow>
+    </TableLayout>
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:id="@+id/horizontalScrollView">
+        android:id="@+id/horizontalScrollView"
+        android:layout_marginTop="15dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,45 +55,125 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/b1"
+                android:background="@drawable/rounded_corner"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/b2"
+                android:background="@drawable/rounded_corner"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/b3"
+                android:background="@drawable/rounded_corner"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/b4"
+                android:background="@drawable/rounded_corner"
                 />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/b5"
+                android:background="@drawable/rounded_corner"
                 />
 
 
         </LinearLayout>
 
     </HorizontalScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:id="@+id/statsont"
+        />
     <TextView
         android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"
         />
-    <Button
-        android:id="@+id/checkButton"
+    <TextView
+        android:id="@+id/tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Chercher"
-        android:onClick="start"
-
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"        />
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"        />
+    <TextView
+        android:id="@+id/tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"        />
+    <TextView
+        android:id="@+id/tv5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"        />
+    <TextView
+        android:id="@+id/tv6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"
         />
+    <TextView
+        android:id="@+id/tv7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"
+        />
+    <TextView
+        android:id="@+id/tv8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"
+        />
+    <TextView
+        android:id="@+id/tv9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="19dp"
+        android:textColor="@color/purple_200"
+        />
+
+
+
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.text.LineBreaker;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -40,10 +41,11 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class StatsActivity extends AppCompatActivity {
+    stats info;
     String API_KEY = "dc19ace9-0a20-467a-b498-42e29a529bf3";
     SharedPreferences sharedpreferences;
     String mypreference = "recent";
-    TextView tv;
+    TextView tv, tv1, tv2, tv3, tv4, tv5, tvs, tv6, tv7, tv8;
     EditText et;
     Boolean bypass = false;
     ArrayList<stats> statistiques;
@@ -55,6 +57,15 @@ public class StatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         et = findViewById(R.id.input);
         tv = findViewById(R.id.tv1);
+        tv1 = findViewById(R.id.tv2);
+        tv2 = findViewById(R.id.tv3);
+        tv3 = findViewById(R.id.tv4);
+        tv4 = findViewById(R.id.tv5);
+        tv5 = findViewById(R.id.tv6);
+        tvs = findViewById(R.id.statsont);
+        tv6 = findViewById(R.id.tv7);
+        tv7 = findViewById(R.id.tv8);
+        tv8 = findViewById(R.id.tv9);
         et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
@@ -94,11 +105,11 @@ public class StatsActivity extends AppCompatActivity {
         }
     };
     public boolean onCreateOptionsMenu(Menu menu){
-        //getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 
-    /*public boolean onOptionsItemSelected(@NonNull MenuItem item){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
         Intent intent;
         switch (item.getItemId()){
             case R.id.accueil:
@@ -117,7 +128,7 @@ public class StatsActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }*/
+    }
 
 
 
@@ -139,11 +150,12 @@ public class StatsActivity extends AppCompatActivity {
         @Override
         protected ArrayList<String> doInBackground(String... pseudo) {
             ArrayList<String> array = new ArrayList<String>();
-            String str = requete(pseudo[0]);
-            array.add(str);
+            info = requete(pseudo[0]);
+
             return array;
         }
-        private String requete(String pseudo) {
+        private stats requete(String pseudo) {
+            stats te = null;
             String response = "";
             ArrayList<String> stats;
             try {
@@ -180,6 +192,7 @@ public class StatsActivity extends AppCompatActivity {
                         str = bufferedReader.readLine();
                     }
                     toDecode = new JSONObject(response);
+                    te = decodeJSON(toDecode);
                     //response = decodeJSON(toDecode);
                 }
             } catch (UnsupportedEncodingException e) {
@@ -191,24 +204,32 @@ public class StatsActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return response;
+            return te;
         }
-        private ArrayList<stats> decodeJSON(JSONArray jsa) throws Exception {
-            statistiques = new ArrayList<>();
-            stats stat;
+        private stats decodeJSON(JSONObject jsa) throws Exception {
+
+            stats stat = null;
             int i=0;
             while(i<jsa.length()){
                 stat = new stats();
-                JSONObject obj = jsa.getJSONObject(i);
+                JSONObject obj = jsa.getJSONObject("player");
+                JSONObject obj1 = obj.getJSONObject("stats");
+                JSONObject obj2 = obj1.getJSONObject("Bedwars");
+                JSONObject obj3 = obj.getJSONObject("achievements");
                 stat.setDpName(obj.getString("displayname"));
-                stat.setExperience(obj.getString("Experience"));
-                stat.setBedwarsLvl("bedwars_level");
-                stat.setBedwarsWin("bedwars_wars");
-                statistiques.add(stat);
+                stat.setExperience(obj2.getString("Experience"));
+                stat.setBedwarsLvl(obj3.getString("bedwars_level"));
+                stat.setBedwarsWin(obj3.getString("bedwars_wins"));
+                stat.setLanguage(obj.getString("language"));
+                stat.setUuId(obj.getString("uuid"));
+                stat.setBedwarsplg(obj2.getString("games_played_bedwars_1"));
+                stat.setSkwins(obj3.getString("skywars_wins_solo"));
+                stat.setSkwint(obj3.getString("skywars_wins_team"));
+                Log.d("ici", stat.toString());
                 i++;
             }
 
-            return statistiques;
+            return stat;
         }
         private String getUUID(JSONObject jso) throws Exception {
             return jso.getString("id");
@@ -221,43 +242,90 @@ public class StatsActivity extends AppCompatActivity {
             display_stat(statistiques);
         }
     }
-    protected void display_stat(ArrayList<stats> st){
-        statistiques = st;
-        //generatedId = View.generateViewId();
-        int i = 0;
-        while(i < statistiques.size()) {
-            stats stat = statistiques.get(i);
-            LinearLayout ll = new LinearLayout(this);
-            ll.setId(i);
-            ll.setMinimumHeight(500);
-            ll.setOnClickListener(openDetails);
-            TextView dpName = new TextView(this);
-            dpName.setText(stat.getDpName());
-            dpName.setTextColor(Color.BLUE);
-            TextView Exp = new TextView(this);
-            Exp.setText(stat.getExperience());
-            Exp.setTextColor(Color.BLUE);
-            TextView bdLvl = new TextView(this);
-            bdLvl.setText(stat.getBedwarsLvl());
-            bdLvl.setTextColor(Color.BLUE);
-            TextView bdw = new TextView(this);
-            bdw.setText(stat.getBedwarsWin());
-            bdw.setTextColor(Color.BLUE);
-            ll.addView(dpName);
-            ll.addView(Exp);
-            ll.addView(bdLvl);
-            ll.addView(bdw);
-            i++;
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    protected void display_stat(ArrayList<stats> st) {
+        String s = et.getText().toString();
+        if (s.equals("")) {
+            tv.setText("Entrer un pseudo");
+            tv1.setText("");
+            tv2.setText("");
+            tv3.setText("");
+            tv4.setText("");
+            tv5.setText("");
+            tv6.setText("");
+            tv7.setText("");
+            tv8.setText("");
+            tvs.setText("");
+
+        } else {
+            try {
+                tv.setText("UUID : " + info.getUuId());
+            } catch (Exception e) {
+                tv.setText("Cet utilisateur n'éxiste pas");
+                tv1.setText("");
+                tv2.setText("");
+                tv3.setText("");
+                tv4.setText("");
+                tv5.setText("");
+                tv6.setText("");
+                tv7.setText("");
+                tv8.setText("");
+                tvs.setText("");
+            }
+            if (tv.getText() != "Cet utilisateur n'éxiste pas") {
+                tvs.setText("Les stats de ce joueur sont : ");
+                try {
+                    tv1.setText("Pseudo : " + info.getDpName());
+                } catch (Exception e) {
+                    tv1.setText("Cet utilisateur n'a pas de display name");
+                }
+                try {
+                    tv2.setText("Experience : " + info.getExperience());
+                } catch (Exception e) {
+                    tv2.setText("Cet Utilisateur n'a pas d'Experience");
+                }
+                try {
+                    tv3.setText("Langue : " + info.getLanguage());
+                } catch (Exception e) {
+                    tv3.setText("Cet Utilisateur ne possède pas de langage");
+                }
+                try {
+                    tv4.setText("Parties joués en mode Bedwars : " + info.getBedwarsplg());
+                } catch (Exception e) {
+                    tv4.setText("Cet Utilisateur ne possède pas de victoire en mode BedWars");
+                }
+                try {
+                    tv5.setText("Victoire sur bedwars : " + info.getBedwarsWin());
+                } catch (Exception e) {
+                    tv5.setText("Cet Utilisateur ne possède pas de victoire en mode BedWars");
+                }
+                try {
+                    tv6.setText("Niveau sur bedwars : " + info.getBedwarsLvl());
+                } catch (Exception e) {
+                    tv6.setText("Cet Utilisateur ne possède pas de lvl en mode BedWars");
+                }
+                try {
+                    tv7.setText("Victoire solo en mode skywars : " + info.getSkwins());
+                } catch (Exception e) {
+                    tv7.setText("Cet Utilisateur ne possède pas de victoires solo en mode skywars");
+                }
+                try {
+                    tv8.setText("Niveau sur bedwars : " + info.getSkwint());
+                } catch (Exception e) {
+                    tv8.setText("Cet Utilisateur ne possède pas de vitoire en team en mode BedWars");
+                }
+
+            }
         }
     }
-    private View.OnClickListener openDetails = new View.OnClickListener() {
-        public void onClick(View v) {
-            stats stat = statistiques.get(v.getId());
-            Intent intent = new Intent(v.getContext(), PostDetailsActivity.class);
-            intent.putExtra("slug", stat.getSlug());
-            startActivity(intent);
-        }
-    };
+
+
+
     private void DecalerPref(String pseudo ){
         SharedPreferences.Editor editor = sharedpreferences.edit();
         String nick1 = sharedpreferences.getString("first", "no");

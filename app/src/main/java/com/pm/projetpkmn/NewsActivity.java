@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.text.LineBreaker;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,16 +45,16 @@ public class NewsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
         ll = (LinearLayout)findViewById(R.id.layout);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music);
+        mediaPlayer.start();
         tv = findViewById(R.id.tv1);
         RequestTask rt = new RequestTask();
         rt.execute();
     }
-
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
-
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         Intent intent;
         switch (item.getItemId()){
@@ -74,7 +75,6 @@ public class NewsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     private class RequestTask extends AsyncTask<Integer, Void, ArrayList<String>> {
         ArrayList<blog_post> blogList;
@@ -154,7 +154,6 @@ public class NewsActivity extends AppCompatActivity {
             cv.setUseCompatPadding(true);
             ImageView iv = new ImageView(this);
             Picasso.get().load(post.getImgUrl()).fit().into(iv);
-            iv.setContentDescription("tu le c");
             TextView titre = new TextView(this);
             titre.setText(post.getTitle());
             titre.setTextColor(Color.BLACK);
@@ -182,6 +181,4 @@ public class NewsActivity extends AppCompatActivity {
             startActivity(intent);
         }
     };
-
-
 }

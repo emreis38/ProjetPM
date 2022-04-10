@@ -3,6 +3,7 @@ package com.pm.projetpkmn;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -37,6 +38,8 @@ public class PostDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music);
+        mediaPlayer.start();
         tv = findViewById(R.id.tv_content);
         iv = findViewById(R.id.img);
         String slug = getIntent().getStringExtra("slug");
@@ -89,7 +92,6 @@ public class PostDetailsActivity extends AppCompatActivity {
             JSONObject img = obj.getJSONObject("coverImage");
             blog.setImgUrl(img.getString("s3Key"));
             post = blog;
-            Log.d("contenttt", blog.getTitle());
         }
         protected void onPostExecute(String result) {
             Picasso.get().load(post.getImgUrl()).fit().into(iv);

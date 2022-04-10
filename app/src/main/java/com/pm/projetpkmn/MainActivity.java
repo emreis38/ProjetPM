@@ -30,22 +30,16 @@ public class MainActivity extends AppCompatActivity {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
-          //  MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music);
-            //mediaPlayer.start();
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music);
+            mediaPlayer.start();
+
     }
-
-
-
-
-
     public void launch(View view) {
         Intent intent;
-
             switch (view.getId()) {
                 case R.id.b_stats:
                     if (!isConnected(this)) {
                         showCustomDialog();
-
                     } else {
                         intent = new Intent(this, StatsActivity.class);
                         startActivity(intent);

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.text.LineBreaker;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -48,13 +49,14 @@ public class StatsActivity extends AppCompatActivity {
     TextView tv, tv1, tv2, tv3, tv4, tv5, tvs, tv6, tv7, tv8;
     EditText et;
     Boolean bypass = false;
-    ArrayList<stats> statistiques;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
         String pseudo = i.getStringExtra("pseudo");
         setContentView(R.layout.activity_game);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music);
+        mediaPlayer.start();
         et = findViewById(R.id.input);
         tv = findViewById(R.id.tv1);
         tv1 = findViewById(R.id.tv2);
@@ -264,9 +266,9 @@ public class StatsActivity extends AppCompatActivity {
 
         } else {
             try {
-                tv.setText("UUID : " + info.getUuId());
+                tv.setText(" UUID : " + info.getUuId());
             } catch (Exception e) {
-                tv.setText("Cet utilisateur n'éxiste pas");
+                tv.setText(" Cet utilisateur n'existe pas");
                 tv1.setText("");
                 tv2.setText("");
                 tv3.setText("");
@@ -278,46 +280,46 @@ public class StatsActivity extends AppCompatActivity {
                 tvs.setText("");
             }
             if (tv.getText() != "Cet utilisateur n'éxiste pas") {
-                tvs.setText("Les stats de ce joueur sont : ");
+                tvs.setText(" Les stats de ce joueur sont : ");
                 try {
-                    tv1.setText("Pseudo : " + info.getDpName());
+                    tv1.setText(" Pseudo : " + info.getDpName());
                 } catch (Exception e) {
-                    tv1.setText("Cet utilisateur n'a pas de display name");
+                    tv1.setText(" Cet utilisateur n'a pas de nom");
                 }
                 try {
-                    tv2.setText("Experience : " + info.getExperience());
+                    tv2.setText(" Experience : " + info.getExperience());
                 } catch (Exception e) {
-                    tv2.setText("Cet Utilisateur n'a pas d'Experience");
+                    tv2.setText(" Cet utilisateur n'à pas d'experience");
                 }
                 try {
-                    tv3.setText("Langue : " + info.getLanguage());
+                    tv3.setText(" Langue : " + info.getLanguage());
                 } catch (Exception e) {
-                    tv3.setText("Cet Utilisateur ne possède pas de langage");
+                    tv3.setText(" Cet utilisateur ne possède pas de langage définit");
                 }
                 try {
-                    tv4.setText("Parties joués en mode Bedwars : " + info.getBedwarsplg());
+                    tv4.setText(" Parties jouées en mode Bedwars : " + info.getBedwarsplg());
                 } catch (Exception e) {
-                    tv4.setText("Cet Utilisateur ne possède pas de victoire en mode BedWars");
+                    tv4.setText(" Cet utilisateur ne possède pas de victoire en BedWars");
                 }
                 try {
-                    tv5.setText("Victoire sur bedwars : " + info.getBedwarsWin());
+                    tv5.setText(" Victoire en bedwars : " + info.getBedwarsWin());
                 } catch (Exception e) {
-                    tv5.setText("Cet Utilisateur ne possède pas de victoire en mode BedWars");
+                    tv5.setText(" Cet utilisateur n'a jamais gagné en BedWars");
                 }
                 try {
-                    tv6.setText("Niveau sur bedwars : " + info.getBedwarsLvl());
+                    tv6.setText(" Niveau en bedwars : " + info.getBedwarsLvl());
                 } catch (Exception e) {
-                    tv6.setText("Cet Utilisateur ne possède pas de lvl en mode BedWars");
+                    tv6.setText(" Cet utilisateur ne possède pas de level en mode BedWars");
                 }
                 try {
-                    tv7.setText("Victoire solo en mode skywars : " + info.getSkwins());
+                    tv7.setText(" Victoire solo en Skywars : " + info.getSkwins());
                 } catch (Exception e) {
-                    tv7.setText("Cet Utilisateur ne possède pas de victoires solo en mode skywars");
+                    tv7.setText(" Cet utilisateur n'a jamais gagné en skywars");
                 }
                 try {
-                    tv8.setText("Niveau sur bedwars : " + info.getSkwint());
+                    tv8.setText(" Niveau en bedwars : " + info.getSkwint());
                 } catch (Exception e) {
-                    tv8.setText("Cet Utilisateur ne possède pas de vitoire en team en mode BedWars");
+                    tv8.setText(" Cet utilisateur  n'a jamais gagné en BedWars en équipe");
                 }
 
             }

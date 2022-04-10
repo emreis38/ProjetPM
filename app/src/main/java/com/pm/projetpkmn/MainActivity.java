@@ -35,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer.start();
 
     }
+    //on instancie les boutons sur la pages d'accueil et les actions qui leurs sont dédiés.
+    //suivant le boutons sur lequel l'utilisateur appuie, la page qu'il demande se lance sous forme d'Intent.
     public void launch(View view) {
         Intent intent;
         //Switch selon le bouton cliqué pour lancer l'activité correspondante,
@@ -63,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
+    //Cette méthode va nous servire à vérifier si il y a une connexion de quelconque type (wifi ou données mobile)
+    //à internet. Si non un message comm
     private boolean isConnected(MainActivity mainActivity) {
         ConnectivityManager connectivityManager = (ConnectivityManager) mainActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiConn = connectivityManager.getNetworkInfo(connectivityManager.TYPE_WIFI);

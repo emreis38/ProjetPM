@@ -56,6 +56,7 @@ public class NewsActivity extends AppCompatActivity {
         return true;
     }
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        //Code de l'action bar
         Intent intent;
         switch (item.getItemId()){
             case R.id.accueil:
@@ -77,6 +78,7 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     private class RequestTask extends AsyncTask<Integer, Void, ArrayList<String>> {
+        //Récupere une list d'article de blog
         ArrayList<blog_post> blogList;
 
         @Override
@@ -139,8 +141,8 @@ public class NewsActivity extends AppCompatActivity {
         }
     }
     protected void display_blog(ArrayList<blog_post> bl){
+        //Génère autant de carte que nécessaire avec l'image, le titre et le début du contenu
         blogList = bl;
-        //generatedId = View.generateViewId();
         int i = 0;
         while(i < blogList.size()) {
             blog_post post = blogList.get(i);
@@ -174,6 +176,7 @@ public class NewsActivity extends AppCompatActivity {
         }
     }
     private View.OnClickListener openDetails = new View.OnClickListener() {
+        //Lance l'affichage de l'activité affichant les détails d'un article
         public void onClick(View v) {
             blog_post post = blogList.get(v.getId());
             Intent intent = new Intent(v.getContext(), PostDetailsActivity.class);

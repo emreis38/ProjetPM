@@ -1,6 +1,7 @@
 package com.pm.projetpkmn;
 
 public class blog_post {
+    //Représente l'objet article avec les principaux champs de l'API.
     private String author ;
     private String title ;
     private String date;

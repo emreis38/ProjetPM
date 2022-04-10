@@ -30,12 +30,15 @@ public class MainActivity extends AppCompatActivity {
 
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
+            //Joue la musique
             MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.music);
             mediaPlayer.start();
 
     }
     public void launch(View view) {
         Intent intent;
+        //Switch selon le bouton cliqué pour lancer l'activité correspondante,
+        // en testant si l'utilisateur à activé la wifi/ les données mobiles
             switch (view.getId()) {
                 case R.id.b_stats:
                     if (!isConnected(this)) {

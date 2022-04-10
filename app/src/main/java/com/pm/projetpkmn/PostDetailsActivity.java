@@ -42,6 +42,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         mediaPlayer.start();
         tv = findViewById(R.id.tv_content);
         iv = findViewById(R.id.img);
+        //Récupère le lien de l'article à affiché.
         String slug = getIntent().getStringExtra("slug");
         RequestTask rt = new RequestTask();
         rt.execute(slug);
@@ -70,8 +71,6 @@ public class PostDetailsActivity extends AppCompatActivity {
                     ligne = bufferedReader.readLine();
                 }
                 JSONObject toDecode = new JSONObject(response);
-                Log.d("zbub", response);
-
                 decodeJSON(toDecode);
             } catch (UnsupportedEncodingException e) {
                 response = "problème d'encodage";
@@ -85,6 +84,7 @@ public class PostDetailsActivity extends AppCompatActivity {
             return response;
         }
         private void decodeJSON(JSONObject obj) throws Exception {
+            //Rempli l'objet représentant l'article
             blog_post blog = new blog_post();
             blog.setAuthor(obj.getString("author"));
             blog.setTitle(obj.getString("title"));
@@ -94,7 +94,9 @@ public class PostDetailsActivity extends AppCompatActivity {
             post = blog;
         }
         protected void onPostExecute(String result) {
+            //Picasso met l'image dans l'image view.
             Picasso.get().load(post.getImgUrl()).fit().into(iv);
+            //Affiche le contenu html directement.
             tv.setText(Html.fromHtml(post.getContent(), 0));
         }
     }

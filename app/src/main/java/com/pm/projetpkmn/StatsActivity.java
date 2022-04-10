@@ -42,6 +42,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class StatsActivity extends AppCompatActivity {
+    //Commençons par initialiser nos variables
     stats info;
     String API_KEY = "dc19ace9-0a20-467a-b498-42e29a529bf3";
     SharedPreferences sharedpreferences;
@@ -49,6 +50,8 @@ public class StatsActivity extends AppCompatActivity {
     TextView tv, tv1, tv2, tv3, tv4, tv5, tvs, tv6, tv7, tv8;
     EditText et;
     Boolean bypass = false;
+
+    //On instancie les valeur des la création de l'activité.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,7 @@ public class StatsActivity extends AppCompatActivity {
         updateRecent();
     }
 
+    //Ici nous initialisons les boutons du système de préférence.
     private void hideButtons() {
         Button b = findViewById(R.id.b1);
         b.setVisibility(View.GONE);
@@ -96,7 +100,7 @@ public class StatsActivity extends AppCompatActivity {
         b.setOnClickListener(setClickecText);
 
     }
-
+    //Une méthode pour dire qu'il faut récupérer la valeur mise dans l'Edit Text quand on clic sur le bouton
     private View.OnClickListener setClickecText = new View.OnClickListener() {
         public void onClick(View v) {
             Button b = findViewById(v.getId());
@@ -106,11 +110,12 @@ public class StatsActivity extends AppCompatActivity {
             myView.performClick();
         }
     };
+    //Cette méthode sert à afficher le Menu
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
-
+    //Nous disons vers quelle page re-diriger quand on clique sur l'une des pages du menu
     public boolean onOptionsItemSelected(@NonNull MenuItem item){
         Intent intent;
         switch (item.getItemId()){
@@ -145,7 +150,7 @@ public class StatsActivity extends AppCompatActivity {
         rt.execute(pseudo);
     }
 
-
+    //Ici nous récupérons le JSON
     private class RequestTask extends AsyncTask<String, Void, ArrayList<String>> {
         // Le corps de la tâche asynchrone (exécuté en tâche de fond)
         ArrayList<stats> statistiques;
@@ -208,6 +213,7 @@ public class StatsActivity extends AppCompatActivity {
             }
             return te;
         }
+        //On parse le JSON afin de récupérer seulement les informations qui nous serrons utiles.
         private stats decodeJSON(JSONObject jsa) throws Exception {
 
             stats stat = null;
@@ -250,9 +256,10 @@ public class StatsActivity extends AppCompatActivity {
 
     }
 
+    //Cette méthode sert à gérer l'affichage.
     protected void display_stat(ArrayList<stats> st) {
         String s = et.getText().toString();
-        if (s.equals("")) {
+        if (s.equals("")) { //Si l'utilisateur ne rentre pas de pseudo, l'appli lui demande de rentrer un pseudo
             tv.setText("Entrer un pseudo");
             tv1.setText("");
             tv2.setText("");
@@ -266,9 +273,9 @@ public class StatsActivity extends AppCompatActivity {
 
         } else {
             try {
-                tv.setText(" UUID : " + info.getUuId());
-            } catch (Exception e) {
-                tv.setText(" Cet utilisateur n'existe pas");
+                tv.setText(" UUID : " + info.getUuId()); //On essaie de récupérer l'UUID du joueur
+            } catch (Exception e) { //Comme chaque joueur en possède un, si il n'y en a pas c'est que le joueur
+                tv.setText(" Cet utilisateur n'existe pas"); // n'existe pas, c'est pourquoi on retourne ce message.
                 tv1.setText("");
                 tv2.setText("");
                 tv3.setText("");
@@ -278,7 +285,7 @@ public class StatsActivity extends AppCompatActivity {
                 tv7.setText("");
                 tv8.setText("");
                 tvs.setText("");
-            }
+            }//Si on nous retourne pas ce message c'est qu'un UUID a été trouver, et que le joueur existe bien.
             if (tv.getText() != "Cet utilisateur n'éxiste pas") {
                 tvs.setText(" Les stats de ce joueur sont : ");
                 try {
@@ -326,8 +333,7 @@ public class StatsActivity extends AppCompatActivity {
         }
     }
 
-
-
+    //Ici nous déclarons notre système de préférence.
     private void DecalerPref(String pseudo ){
         SharedPreferences.Editor editor = sharedpreferences.edit();
         String nick1 = sharedpreferences.getString("first", "no");
@@ -349,6 +355,9 @@ public class StatsActivity extends AppCompatActivity {
         editor.putString("first", pseudo);
         editor.commit() ;
     }
+
+    //Chaque fois que l'utilisateur rentre un nouveau pseudo, le système de préférence est mis a jour,
+    //les premières recherches disparaisse, et laisse leur place aux dernières.
     private void updateRecent(){
         sharedpreferences = getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);

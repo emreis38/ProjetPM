@@ -1,15 +1,19 @@
 package com.pm.projetpkmn;
 
 public class stats {
-    private String dpName = "";
-    private String experience ="";
-    private String bedwarsplg = "";
-    private String bedwarsWin ="";
-    private String bedwarsLvl ="";
-    private String language = "";
-    private String UuId = "";
-    private String skwins = "";
-    private String skwint = "";
+    //Dans cette classe nous instantions toutes les valeurs que nous allons essayer de récupérer dans la page Stats
+    //nous générons des méthodes de getters et de setters afin de modifier la valeur lors de la récupération
+    //des informations, et ensuite pour la récupérer cette valeur pour l'affichage.
+
+    private String dpName = ""; //Display name
+    private String experience =""; //Experience
+    private String bedwarsplg = ""; // bedwars played games
+    private String bedwarsWin =""; // Bedwars win
+    private String bedwarsLvl =""; //Bedwars level
+    private String language = ""; //language
+    private String UuId = ""; //UUid
+    private String skwins = ""; //Skywars solo wins
+    private String skwint = ""; //Skywars team wins
 
     public String getSkwint() {
         return skwint;
